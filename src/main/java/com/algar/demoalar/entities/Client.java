@@ -1,12 +1,13 @@
 package com.algar.demoalar.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
-public class Clinte implements Serializable {
+public class Client implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
@@ -15,9 +16,20 @@ public class Clinte implements Serializable {
     private String cpfOrCnpj;
     private String passWord;
 
+    @ElementCollection
+    @CollectionTable(name = "tb_phone")
     private Set<String> phones = new HashSet<>();
 
-    public Clinte(){
+    public Client(Integer id, String name, String email, Integer clientType, String cpfOrCnpj, String passWord) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.clientType = clientType;
+        this.cpfOrCnpj = cpfOrCnpj;
+        this.passWord = passWord;
+    }
+
+    public Client(){
 
     }
 
@@ -69,12 +81,21 @@ public class Clinte implements Serializable {
         this.passWord = passWord;
     }
 
+    public Set<String> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(Set<String> phones) {
+        this.phones = phones;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Clinte clinte = (Clinte) o;
-        return Objects.equals(id, clinte.id);
+        Client client = (Client) o;
+        return Objects.equals(id, client.id);
     }
 
     @Override
