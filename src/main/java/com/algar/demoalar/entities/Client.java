@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
+@Entity
+@Table(name = "tb_client")
 public class Client implements Serializable {
 
     @Id
@@ -19,6 +21,10 @@ public class Client implements Serializable {
     @ElementCollection
     @CollectionTable(name = "tb_phone")
     private Set<String> phones = new HashSet<>();
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<Address> addresses = new ArrayList<>();
+
 
     public Client(Integer id, String name, String email, Integer clientType, String cpfOrCnpj, String passWord) {
         this.id = id;
@@ -89,6 +95,13 @@ public class Client implements Serializable {
         this.phones = phones;
     }
 
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
 
     @Override
     public boolean equals(Object o) {
